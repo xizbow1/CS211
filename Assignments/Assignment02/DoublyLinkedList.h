@@ -46,6 +46,8 @@ public:
     DoublyLinkedList();           // Class constructor
     void addToDLLTail(double el); // Add a DLLNode with value el to tail of DLL
     double deleteFromDLLTail();   // Remove a DLLNode from tail of DLL
+    void addToDLLHead(double el); 
+    double deleteFromDLLHead();
 
 private:
     DLLNode *head, *tail;

@@ -66,3 +66,36 @@ double DoublyLinkedList::deleteFromDLLTail() {
     }
     return el;                            // Return value in deleted DLLNode
 }
+
+void DoublyLinkedList::addToDLLHead(double el) {
+    
+    if (head != NULL) {
+        DLLNode* temp = head->next;
+        head = new DLLNode(el, temp, 0); 
+        temp->prev = head;
+    }
+    else {                                
+        head = new DLLNode(el);          
+        tail = head;                                                 
+    }
+}
+
+double DoublyLinkedList::deleteFromDLLHead() {
+    double el = head->info;
+
+    if (head == 0)
+        throw("EMPTY");
+
+    else if (head == tail) { 
+        delete head;
+        head = 0;
+        tail = 0;
+    }
+
+    else {
+        head = head->next;
+        delete head->prev;
+        head->prev = 0;
+    }
+    return el;
+}
