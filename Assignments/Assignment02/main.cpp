@@ -12,7 +12,7 @@
 #include <fstream>
 #include <ctime>
 #include "DoublyLinkedList.h"
-// #include "gcd.h"
+#include "gcd.h"
 #include "addCommas.h"
 
 using namespace std;
@@ -32,13 +32,13 @@ int main() {
     addCommas(initial_n);
     cout << " \n";
 
-    // cout << endl << "*** TESTING gcd ***" << endl;
+    cout << endl << "*** TESTING gcd ***" << endl;
 
-    // int m,n;
-    // cout << "Please enter the two non-negative integer values: ";
-    // cin >> m >> n;
-    // cout << "The Greatest Common Divisor is: " << gcd(m, n);
-    // cout << " \n";
+    int m,n;
+    cout << "Please enter the two non-negative integer values: ";
+    cin >> m >> n;
+    cout << "The Greatest Common Divisor is: " << gcd(m, n);
+    cout << " \n";
 
 
     cout << "*** TESTING Class DoublyLinkedList ***" << endl;
@@ -98,28 +98,28 @@ int main() {
     // UNCOMMENT the following code when you're ready to
     // run tests
 
-    // cout << endl
-    //      << "*** TESTING addToDLLHead, deleteFromDLLHead ***"
-    //      << endl;
+    cout << endl
+         << "*** TESTING addToDLLHead, deleteFromDLLHead ***"
+         << endl;
 
-    // el = 1000;
-    // cout << "Inserting value " << el << " at head of DLL\n";
-    // theDLL->addToDLLHead(el);
-    // el = 2000;
-    // cout << "Inserting value " << el << " at head of DLL\n";
-    // theDLL->addToDLLHead(el);
-    // el = 3000;
-    // cout << "Inserting value " << el << " at head of DLL\n";
-    // theDLL->addToDLLHead(el);
+    el = 1000;
+    cout << "Inserting value " << el << " at head of DLL\n";
+    theDLL->addToDLLHead(el);
+    el = 2000;
+    cout << "Inserting value " << el << " at head of DLL\n";
+    theDLL->addToDLLHead(el);
+    el = 3000;
+    cout << "Inserting value " << el << " at head of DLL\n";
+    theDLL->addToDLLHead(el);
 
-    // // Delete DLLNodes from head and print their values
-    // cout << "Time to delete some DLLNodes!  \n";
-    // el = theDLL->deleteFromDLLHead();
-    // cout << "Deleted " << el << " from DLL \n";
-    // el = theDLL->deleteFromDLLHead();
-    // cout << "Deleted " << el << " from DLL \n";
-    // el = theDLL->deleteFromDLLHead();
-    // cout << "Deleted " << el << " from DLL \n";
+    // Delete DLLNodes from head and print their values
+    cout << "Time to delete some DLLNodes!  \n";
+    el = theDLL->deleteFromDLLHead();
+    cout << "Deleted " << el << " from DLL \n";
+    el = theDLL->deleteFromDLLHead();
+    cout << "Deleted " << el << " from DLL \n";
+    el = theDLL->deleteFromDLLHead();
+    cout << "Deleted " << el << " from DLL \n";
 
 
     cout << "...done.\n";
