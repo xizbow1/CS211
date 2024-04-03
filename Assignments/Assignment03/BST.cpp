@@ -442,11 +442,12 @@ void BST::deleteAllNodes(BSTNode* node) {
     delete node;
 }
 
-bool BST::deleteNode(int el) { // I know you said to do all of these recursively, but I had so much trouble with base cases that I'm doing it the sinful way (iteratively)
+bool BST::deleteNode(int el) {
     BSTNode* curr = root;
     BSTNode* prev = NULL;
     while(curr != NULL){
         if(curr->getEl() == el){
+            BSTNode* nodeToDelete = curr; // Node that will be deleted
             if(prev != NULL){ // Handles deleting root properly
                 if(prev->getLeftChild() == curr){ // If the node to be deleted is the left child of the parent
                     if(curr->getLeftChild() != NULL){ // Has a left child?
@@ -464,26 +465,29 @@ bool BST::deleteNode(int el) { // I know you said to do all of these recursively
                     } else {
                         prev->setRightChild(NULL);
                     }
-                
-                } else {
-                    cout << "Oh no" << endl;
-                    exit(0);
+                }
+            } else {
+                if(curr->getLeftChild() != NULL){ // Has a left child?
+                    BSTNode* rightMost = curr->getLeftChild();
+                    while(rightMost->getRightChild() != NULL) { // Find the rightmost node of the left child
+                        rightMost = rightMost->getRightChild();
+                    }
+                    rightMost->setRightChild(curr->getRightChild()); // Attach the right child of the root to the rightmost node of the left child
+                    root = curr->getLeftChild();
+                } else if(curr->getRightChild() != NULL){ // Only has a right child
+                    root = curr->getRightChild();
+                } else { // Has no children
+                    root = NULL;
                 }
             }
-            delete curr;
+            cout << "Deleting node with value " << nodeToDelete->getEl() << endl;
+            delete nodeToDelete; // Delete the node
             return true;
         }
-        if(curr->getLeftChild() == NULL && curr->getRightChild() == NULL && curr->getEl() != el){
-            return false;
-        }
-        if(curr->getEl() > el){
-            prev = curr;
-            curr = curr->getLeftChild();
-        } else {
-            prev = curr;
-            curr = curr->getRightChild();
-        }
+        prev = curr;
+        curr = (el < curr->getEl()) ? curr->getLeftChild() : curr->getRightChild();
     }
+    return false; // Element not found
 }
 
 void BST::leftRotation(BSTNode& gr, BSTNode& par, BSTNode& ch) {
