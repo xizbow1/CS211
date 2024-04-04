@@ -448,7 +448,7 @@ bool BST::deleteNode(int el) {
     while(curr != NULL){
         if(curr->getEl() == el){
             BSTNode* nodeToDelete = curr; // Node that will be deleted
-            if(prev != NULL){ // Handles deleting root properly
+            if(prev != NULL){ // Not the root
                 if(prev->getLeftChild() == curr){ // If the node to be deleted is the left child of the parent
                     if(curr->getLeftChild() != NULL){ // Has a left child?
                         prev->setLeftChild(curr->getLeftChild());
@@ -466,7 +466,7 @@ bool BST::deleteNode(int el) {
                         prev->setRightChild(NULL);
                     }
                 }
-            } else {
+            } else { // It is the root
                 if(curr->getLeftChild() != NULL){ // Has a left child?
                     BSTNode* rightMost = curr->getLeftChild();
                     while(rightMost->getRightChild() != NULL) { // Find the rightmost node of the left child
