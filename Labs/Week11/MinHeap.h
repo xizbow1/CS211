@@ -4,6 +4,8 @@
 //    David C. Tuttle
 //    Last Modified: 05 Apr 2023
 
+// Blake Culbertson, Dylan Westigard, Orlando Trujillo-Ortiz
+
 #ifndef MINHEAP_H
 #define MINHEAP_H
 
@@ -43,6 +45,9 @@ public:
     // Mutators
     bool insertValue(T newValue);
     T removeValue();
+
+    // Helpers
+    void percolateDown(int nodeIndex);
 
  private:
      int heapSize;

@@ -9,6 +9,8 @@
 // Purpose: Implementation file for a MinHeap class
 //----------------------------------------------------
 
+// Blake Culbertson, Dylan Westigard, Orlando Trujillo-Ortiz
+
 #include <cstdlib>
 #include <iostream>
 #include <iomanip>
@@ -23,12 +25,22 @@ using namespace std;
 // Constructors and Destructor
 
 MinHeap::MinHeap() {
+    heapCapacity = DEFAULT_CAPACITY;
+    heapSize = 0;
+    heapArray = new int[heapCapacity];
+
 }
 
 MinHeap::MinHeap(int capacity) {
+    heapCapacity = capacity;
+    heapSize = 0;
+    heapArray = new int[heapCapacity];
+    
 }
 
 MinHeap::~MinHeap() {
+    delete []heapArray;
+    heapSize = 0;
 }
 
 //--------------------------------------------
@@ -38,7 +50,7 @@ MinHeap::~MinHeap() {
 //--------------------------------------------
 
 int MinHeap::getSize() const {
-    return 0;  // REMOVE THIS LINE
+    return heapSize;
 }
 
 //--------------------------------------------
@@ -48,7 +60,7 @@ int MinHeap::getSize() const {
 //--------------------------------------------
 
 int MinHeap::getCapacity() const {
-    return 0;  // REMOVE THIS LINE
+    return heapCapacity;
 }
 
 //--------------------------------------------
@@ -58,8 +70,14 @@ int MinHeap::getCapacity() const {
 //--------------------------------------------
 
 void MinHeap::display() const {
-    // REMOVE THESE LINES
     cout << "*** ARRAY PRINTED HERE ***" << endl;
+    cout << "Size = " << heapSize;
+    cout << ", Capacity = " << heapCapacity << ", ";
+    cout << "Values are ";
+    for(int i = 0; i < heapSize; i++){
+        cout << heapArray[i] << " ";
+    }
+    cout << endl;
     return;
 }
 
@@ -70,7 +88,30 @@ void MinHeap::display() const {
 //--------------------------------------------
 
 bool MinHeap::insertValue(T newValue) {
-    return false; // REMOVE THIS LINE
+    cout << "I AM START FLLAG" << endl;
+    if (heapSize >= heapCapacity) {
+        cout << "I AM FLAG AGGAIN " << heapSize << endl;
+        return false;
+    }
+    heapArray[heapSize] = newValue;
+    heapSize++;
+    int childIndex = heapSize - 1;
+    int parentIndex = (childIndex - 1) / 2;
+
+    cout << heapArray[heapSize] << endl;
+
+    while (heapArray[childIndex] < heapArray[parentIndex] && parentIndex >= 0) {
+        cout << "I AM FLAG" << endl;
+        T temp = heapArray[parentIndex];
+        heapArray[parentIndex] = heapArray[childIndex];
+        heapArray[childIndex] = temp;
+        childIndex = parentIndex;
+        parentIndex = (childIndex - 1) / 2;
+    } 
+    cout << heapSize << "\nI AM THIRD FLAG" << endl;
+
+    cout << heapSize << "\nI AM FORTH FLAG" << endl; 
+    return true;
 }
 
 //--------------------------------------------
@@ -80,6 +121,40 @@ bool MinHeap::insertValue(T newValue) {
 //--------------------------------------------
 
 T MinHeap::removeValue() {
-    return -99999; // REMOVE THIS LINE
+    if(heapSize == 0){
+        return -99999;
+    }
+    int removedVal = heapArray[0];
+    int valAtEnd = heapArray[heapSize - 1];
+    heapArray[0] = valAtEnd;
+    heapSize--;
+    percolateDown(0);
+    return removedVal;
 }
 
+void MinHeap::percolateDown(int nodeIndex) {
+    int currIndex = nodeIndex;
+    while(currIndex <= heapSize - 2){
+        T minVal;
+        int minValIndex;
+        if(heapArray[currIndex] < heapArray[currIndex + 1]){
+            minVal = heapArray[currIndex];
+            minValIndex = currIndex;
+        } else {
+            minVal = heapArray[currIndex + 1];
+            minValIndex = currIndex + 1;
+        }
+        if(minVal > heapArray[currIndex + 2]){
+            minVal = heapArray[currIndex + 2];
+            minValIndex = currIndex + 2;
+        }
+        if(currIndex != minValIndex){
+            T temp = heapArray[currIndex];
+            heapArray[currIndex] = heapArray[minValIndex];
+            heapArray[minValIndex] = temp;
+        } else {
+            return;
+        }
+        currIndex = minValIndex;
+    }
+}
