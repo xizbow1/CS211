@@ -447,7 +447,6 @@ bool BST::deleteNode(int el) {
     BSTNode* prev = NULL;
     while(curr != NULL){
         if(curr->getEl() == el){
-            BSTNode* nodeToDelete = curr; // Node that will be deleted
             if(prev != NULL){ // Not the root
                 if(prev->getLeftChild() == curr){ // If the node to be deleted is the left child of the parent
                     if(curr->getLeftChild() != NULL){ // Has a left child?
@@ -458,30 +457,27 @@ bool BST::deleteNode(int el) {
                         prev->setLeftChild(NULL);
                     }
                 } else if(prev->getRightChild() == curr) { // If it's the right child
-                    if(curr->getLeftChild() != NULL){
+                    if(curr->getLeftChild() != NULL){ // Has a left child?
                         prev->setRightChild(curr->getLeftChild());
-                    } else if(curr->getRightChild() != NULL){
+                    } else if(curr->getRightChild() != NULL){ // Only has a right child
                         prev->setRightChild(curr->getRightChild());
-                    } else {
+                    } else { // Has no children, so we just set the right child to NULL
                         prev->setRightChild(NULL);
                     }
                 }
-            } else { // It is the root
+            } else { // If the node to be deleted is the root
                 if(curr->getLeftChild() != NULL){ // Has a left child?
-                    BSTNode* rightMost = curr->getLeftChild();
-                    while(rightMost->getRightChild() != NULL) { // Find the rightmost node of the left child
-                        rightMost = rightMost->getRightChild();
-                    }
-                    rightMost->setRightChild(curr->getRightChild()); // Attach the right child of the root to the rightmost node of the left child
                     root = curr->getLeftChild();
+                    root->getLeftChild()->setRightChild(root->getRightChild());
+                    root->setRightChild(curr->getRightChild());
                 } else if(curr->getRightChild() != NULL){ // Only has a right child
                     root = curr->getRightChild();
                 } else { // Has no children
                     root = NULL;
                 }
             }
-            cout << "Deleting node with value " << nodeToDelete->getEl() << endl;
-            delete nodeToDelete; // Delete the node
+            cout << "Deleting node with value " << curr->getEl() << endl;
+            delete curr; // Delete the node
             return true;
         }
         prev = curr;
