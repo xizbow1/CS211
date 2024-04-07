@@ -30,6 +30,8 @@ typedef int T;
   last modified: 23 Mar 2023
 -----*/
 
+// Blake Culbertson
+
 class BSTNode {
 public:
     // Two constructors:
@@ -52,6 +54,9 @@ public:
     void setEl(T newEl) { el = newEl; }
     void setLeftChild(BSTNode *p) { leftChild = p; }
     void setRightChild(BSTNode *p) { rightChild = p; }
+
+    // Helpers
+
     
 private:
     T el;
@@ -125,6 +130,8 @@ public:
     bool deleteNode(BSTNode*, T el);
     void leftRotation(BSTNode& gr, BSTNode& par, BSTNode& ch);
     void rightRotation(BSTNode& gr, BSTNode& par, BSTNode& ch);
+
+    BSTNode* getSuccessor(BSTNode*);
     
 private:
     BSTNode *root;

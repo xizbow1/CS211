@@ -11,6 +11,8 @@
 //
 //----------------------------------------------------
 
+// Blake Culbertson
+
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -442,48 +444,79 @@ void BST::deleteAllNodes(BSTNode* node) {
     delete node;
 }
 
-bool BST::deleteNode(int el) {
-    BSTNode* curr = root;
-    BSTNode* prev = NULL;
-    while(curr != NULL){
-        if(curr->getEl() == el){
-            if(prev != NULL){ // Not the root
-                if(prev->getLeftChild() == curr){ // If the node to be deleted is the left child of the parent
-                    if(curr->getLeftChild() != NULL){ // Has a left child?
-                        prev->setLeftChild(curr->getLeftChild());
-                    } else if(curr->getRightChild() != NULL){ // Only has a right child
-                        prev->setLeftChild(curr->getRightChild());
-                    } else { // Has no children
-                        prev->setLeftChild(NULL);
-                    }
-                } else if(prev->getRightChild() == curr) { // If it's the right child
-                    if(curr->getLeftChild() != NULL){ // Has a left child?
-                        prev->setRightChild(curr->getLeftChild());
-                    } else if(curr->getRightChild() != NULL){ // Only has a right child
-                        prev->setRightChild(curr->getRightChild());
-                    } else { // Has no children, so we just set the right child to NULL
-                        prev->setRightChild(NULL);
-                    }
-                }
-            } else { // If the node to be deleted is the root
-                if(curr->getLeftChild() != NULL){ // Has a left child?
-                    root = curr->getLeftChild();
-                    root->getLeftChild()->setRightChild(root->getRightChild());
-                    root->setRightChild(curr->getRightChild());
-                } else if(curr->getRightChild() != NULL){ // Only has a right child
-                    root = curr->getRightChild();
-                } else { // Has no children
-                    root = NULL;
-                }
-            }
-            cout << "Deleting node with value " << curr->getEl() << endl;
-            delete curr; // Delete the node
-            return true;
+bool BST::deleteNode(int key) {
+    // Start from the root
+    BSTNode* parent = NULL;
+    BSTNode* current = root;
+    bool isLeftChild = false;
+
+    // Find the node with the key and its parent
+    while (current != NULL && current->getEl() != key) {
+        parent = current;
+        if (key < current->getEl()) {
+            current = current->getLeftChild();
+            isLeftChild = true;
+        } else {
+            current = current->getRightChild();
+            isLeftChild = false;
         }
-        prev = curr;
-        curr = (el < curr->getEl()) ? curr->getLeftChild() : curr->getRightChild();
     }
-    return false; // Element not found
+
+    // If the node was not found
+    if (current == NULL) {
+        return false;
+    }
+
+    // If the node is a leaf node
+    if (current->getLeftChild() == NULL && current->getRightChild() == NULL) {
+        if (current == root) {
+            root = NULL;
+        } else {
+            if (isLeftChild) {
+                parent->setLeftChild(NULL);
+            } else {
+                parent->setRightChild(NULL);
+            }
+        }
+    }
+    // If the node has two children
+    else if (current->getLeftChild() != NULL && current->getRightChild() != NULL) {
+        // Find the inorder successor (smallest in the right subtree)
+        BSTNode* successor = getSuccessor(current);
+        // Copy the inorder successor's value to this node
+        current->setEl(successor->getEl());
+        // Delete the inorder successor
+        if (current == parent->getLeftChild()) {
+            parent->setLeftChild(successor->getRightChild());
+        } else {
+            parent->setRightChild(successor->getRightChild());
+        }
+    }
+    // If the node has one child
+    else {
+        BSTNode* child = (current->getLeftChild() != NULL) ? current->getLeftChild() : current->getRightChild();
+        if (current == root) {
+            root = child;
+        } else {
+            if (isLeftChild) {
+                parent->setLeftChild(child);
+            } else {
+                parent->setRightChild(child);
+            }
+        }
+    }
+
+    // Delete the node
+    delete current;
+    return true;
+}
+
+BSTNode* BST::getSuccessor(BSTNode* node) {
+    BSTNode* current = node->getRightChild();
+    while (current->getLeftChild() != NULL) {
+        current = current->getLeftChild();
+    }
+    return current;
 }
 
 void BST::leftRotation(BSTNode& gr, BSTNode& par, BSTNode& ch) {
