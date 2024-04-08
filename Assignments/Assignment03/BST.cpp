@@ -445,69 +445,70 @@ void BST::deleteAllNodes(BSTNode* node) {
 }
 
 bool BST::deleteNode(T el) {
-    // Start from the root
-    BSTNode* parent = NULL;
+    BSTNode* parent = nullptr;
     BSTNode* current = root;
-    bool isLeftChild = false;
 
-    // Find the node with the el and its parent
-    while (current != NULL && current->getEl() != el) {
+    // Search for the node to delete
+    while (current != nullptr && current->getEl() != el) {
         parent = current;
-        if (el < current->getEl()) {
+        if (el < current->getEl())
             current = current->getLeftChild();
-            isLeftChild = true;
-        } else {
+        else
             current = current->getRightChild();
-            isLeftChild = false;
-        }
     }
 
-    // If the node was not found
-    if (current == NULL) {
+    // If node not found, return false
+    if (current == nullptr)
         return false;
-    }
 
-    // If the node is a leaf node
-    if (current->getLeftChild() == NULL && current->getRightChild() == NULL) {
-        if (current == root) {
-            root = NULL;
-        } else {
-            if (isLeftChild) {
-                parent->setLeftChild(NULL);
-            } else {
-                parent->setRightChild(NULL);
-            }
-        }
+    // Case 1: Node to delete is a leaf
+    if (current->getLeftChild() == nullptr && current->getRightChild() == nullptr) {
+        if (current == root)
+            root = nullptr;
+        else if (parent->getLeftChild() == current)
+            parent->setLeftChild(nullptr);
+        else
+            parent->setRightChild(nullptr);
+        delete current;
     }
-    // If the node has two children
-    else if (current->getLeftChild() != NULL && current->getRightChild() != NULL) {
-        // Find the inorder successor (smallest in the right subtree)
-        BSTNode* successor = getSuccessor(current);
-        // Copy the inorder successor's value to this node
-        current->setEl(successor->getEl());
-        // Delete the inorder successor
-        if (current == parent->getLeftChild()) {
-            parent->setLeftChild(successor->getRightChild());
-        } else {
-            parent->setRightChild(successor->getRightChild());
-        }
+    // Case 2: Node to delete has only one child
+    else if (current->getLeftChild() == nullptr) {
+        if (current == root)
+            root = current->getRightChild();
+        else if (parent->getLeftChild() == current)
+            parent->setLeftChild(current->getRightChild());
+        else
+            parent->setRightChild(current->getRightChild());
+        delete current;
+    } else if (current->getRightChild() == nullptr) {
+        if (current == root)
+            root = current->getLeftChild();
+        else if (parent->getLeftChild() == current)
+            parent->setLeftChild(current->getLeftChild());
+        else
+            parent->setRightChild(current->getLeftChild());
+        delete current;
     }
-    // If the node has one child
+    // Case 3: Node to delete has two children
     else {
-        BSTNode* child = (current->getLeftChild() != NULL) ? current->getLeftChild() : current->getRightChild();
-        if (current == root) {
-            root = child;
-        } else {
-            if (isLeftChild) {
-                parent->setLeftChild(child);
-            } else {
-                parent->setRightChild(child);
-            }
+        BSTNode* successorParent = current;
+        BSTNode* successor = current->getRightChild();
+        while (successor->getLeftChild() != nullptr) {
+            successorParent = successor;
+            successor = successor->getLeftChild();
         }
+
+        // Replace current with its successor
+        current->setEl(successor->getEl());
+
+        // Delete the successor node
+        if (successorParent->getLeftChild() == successor)
+            successorParent->setLeftChild(successor->getRightChild());
+        else
+            successorParent->setRightChild(successor->getRightChild());
+        delete successor;
     }
 
-    // Delete the node
-    delete current;
     return true;
 }
 

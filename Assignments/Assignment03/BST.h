@@ -30,7 +30,7 @@ typedef int T;
   last modified: 23 Mar 2023
 -----*/
 
-// Blake Culbertson
+// Blake Culbertson and Rachael 
 
 class BSTNode {
 public:
