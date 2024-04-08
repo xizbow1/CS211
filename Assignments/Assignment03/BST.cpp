@@ -11,7 +11,7 @@
 //
 //----------------------------------------------------
 
-// Blake Culbertson
+// Blake Culbertson and Rachael Brower
 
 #include <cstdlib>
 #include <iostream>
