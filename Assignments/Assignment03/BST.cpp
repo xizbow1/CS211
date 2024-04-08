@@ -444,16 +444,16 @@ void BST::deleteAllNodes(BSTNode* node) {
     delete node;
 }
 
-bool BST::deleteNode(int key) {
+bool BST::deleteNode(T el) {
     // Start from the root
     BSTNode* parent = NULL;
     BSTNode* current = root;
     bool isLeftChild = false;
 
-    // Find the node with the key and its parent
-    while (current != NULL && current->getEl() != key) {
+    // Find the node with the el and its parent
+    while (current != NULL && current->getEl() != el) {
         parent = current;
-        if (key < current->getEl()) {
+        if (el < current->getEl()) {
             current = current->getLeftChild();
             isLeftChild = true;
         } else {
