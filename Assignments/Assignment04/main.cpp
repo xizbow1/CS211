@@ -1,3 +1,7 @@
+
+// Blake Culbertson
+// CS211 Assignment 4
+
 #include <cstdlib>
 #include <string>
 #include <iostream>
@@ -12,11 +16,11 @@ int main(){
     myGraph.addEdge(1, 3);
     myGraph.addEdge(4, 2);
     myGraph.addEdge(5, 3);
-    assert(myGraph.edgeExists(3, 1)); // True
-    assert(!myGraph.edgeExists(3, 2)); // False
-    assert(!myGraph.edgeExists(4, 5)); // False
-    assert(myGraph.edgeExists(3, 5)); // True
-    assert(myGraph.edgeExists(4, 2)); // True
+    assert(myGraph.edgeExists(3, 1));
+    assert(!myGraph.edgeExists(3, 2));
+    assert(!myGraph.edgeExists(4, 5));
+    assert(myGraph.edgeExists(3, 5));
+    assert(myGraph.edgeExists(4, 2));
     cout << "addEdge tests complete!" << endl;
 
     myGraph.removeEdge(3, 5);

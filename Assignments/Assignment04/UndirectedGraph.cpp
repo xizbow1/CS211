@@ -1,3 +1,7 @@
+
+// Blake Culbertson
+// CS211 Assignment 4
+
 #include <cstdlib>
 #include <string>
 #include <iostream>
@@ -5,8 +9,6 @@
 #include "UndirectedGraph.h"
 
 using namespace std;
-
-// Blake Culbertson
 
 // Going to use the "upper triangle" strategy.
 
@@ -41,7 +43,7 @@ bool UndirectedGraph::edgeExists(int vert1, int vert2){
 }
 
 bool UndirectedGraph::addEdge(int vert1, int vert2){
-    vert1--; // Off by one :)
+    vert1--;
     vert2--;
     if(vert1 >= graph.size() || vert2 >= graph.size() || vert2 >= graph[vert1].size()){ 
         return false;
@@ -57,7 +59,7 @@ bool UndirectedGraph::addEdge(int vert1, int vert2){
 }
 
 bool UndirectedGraph::removeEdge(int vert1, int vert2){
-    vert1--; // Off by one :)
+    vert1--;
     vert2--;
     if(vert1 >= graph.size() || vert2 >= graph.size() || vert2 >= graph.at(vert1).size()){ 
         return false;
