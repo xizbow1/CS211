@@ -28,11 +28,14 @@ int main(){
     assert(myGraph.vertexCount() == 5);
     cout << "vertexCount test complete!" << endl;
 
+    UndirectedGraph newGraph = UndirectedGraph();
     assert(!myGraph.graphConnected());
     myGraph.addEdge(1, 2);
-    myGraph.addEdge(2, 3);
-    myGraph.addEdge(3, 4);
-    myGraph.addEdge(4, 5);
+    myGraph.addEdge(2, 4);
+    myGraph.addEdge(4, 3);
+    myGraph.addEdge(5, 3);
     assert(myGraph.graphConnected());
+    myGraph.removeEdge(3, 5);
+    assert(!myGraph.graphConnected());
     cout << "graphConnected tests complete!" << endl;
 }
